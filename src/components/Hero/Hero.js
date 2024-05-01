@@ -1,10 +1,26 @@
 import React from 'react';
 import styled from 'styled-components/macro';
+import { generateImageSrcSet } from '../../utils/image';
 
 const Hero = () => {
+  const imageSrc = "/images/hero-img.jpg";
+  const getImageSrcSetPerExtension = generateImageSrcSet(imageSrc);
+  const avifImages = getImageSrcSetPerExtension('.avif');
+  const jpgImages = getImageSrcSetPerExtension('.jpg');
+
   return (
     <Wrapper>
-      <HeroImage src="/images/hero-img.jpg" />
+      <HeroImage>
+        <source
+          type="image/avif"
+          srcSet={avifImages.join(",")}
+        />
+        <source
+          type="image/jpg"
+          srcSet={jpgImages.join(",")}
+        />
+        <img alt="" src={imageSrc} />
+      </HeroImage>
       <Swoop src="/swoop.svg" />
     </Wrapper>
   );
@@ -20,7 +36,7 @@ const Wrapper = styled.section`
   background: hsl(0deg 0% 1%);
 `;
 
-const HeroImage = styled.img`
+const HeroImage = styled.picture`
   display: block;
   width: 500px;
   height: 500px;
